@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <title>发送websocket请求</title>
+</head>
+<body>
+<h1>echo test</h1>
+<input type="text" id="sendTxt"/>
+<button id="sendBtn">发送</button>
+<div id="recv"></div>
+<script type="text/javascript">
+    var socket=io('http://localhost:8001/');
+    socket.on('enter', function (data) {
+        showMessage(data,'enter');
+        document.getElementById('sendBtn').onclick=function () {
+            var txt=document.getElementById('sendTxt').value;
+            if(txt){
+                socket.emit('message', txt);
+            }
+        }
+    });
+    socket.on('message',function(data){
+        showMessage(data,'message');
+    });
+    socket.on('leave',function(data){
+        showMessage(data,'leave');
+        console.log('websocket close');
+    });
+
+    function showMessage(data,type){
+        var div=document.createElement('div');
+        div.innerHTML=data;
+        switch(type){
+            case 'enter':
+                div.style.color='blue';
+                break;
+            case 'leave':
+                div.style.color='red';
+                break;
+        }
+        document.body.appendChild(div);
+    }
+</script>
+</body>
+</html>
