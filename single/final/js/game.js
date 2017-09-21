@@ -47,7 +47,7 @@ var Game=function () {
             divs.push(div);
         }
     }
-    //刷新div
+    //刷新游戏界面和下一方块界面
     var refreshDiv=function (data,divs) {
         for (var i=0;i<data.length;i++){
             for(var j=0;j<data[i].length;j++){
@@ -61,24 +61,89 @@ var Game=function () {
             }
         }
     }
+    //显示最新的方块到网格中
+    var setData=function () {
+        for(var i=0;i<cur.data.length;i++){
+            for (var j=0;j<cur.data[i].length;j++){
+                if(check(cur.origin,i,j)){
+                    gameData[cur.origin.x+i][cur.origin.y+j]=cur.data[i][j]
+                }
+            }
+        }
+    }
 
+    /*检测方块位置是否合法*/
+    var check=function (pos,x,y) {
+        if(pos.x+x<0){
+            return false;
+        }else if(pos.x+x>=gameData.length){
+            return false;
+        }else if(pos.y+y<0){
+            return false;
+        }else if(pos.y+y>=gameData[0].length){
+            return false;
+        }else if(gameData[pos.x+x][pos.y+y]==1){
+            return false;
+        }
+        return true;
+    }
+
+    /**判断方块位置是否合法，以及到了底部*/
+    var isValid=function (pos,data) {
+        for (var i=0;i<data.length;i++){
+            for (var j=0;j<data[i].length;j++){
+                if(data[i][j]!=0){
+                    if(!check(pos,i,j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**下移前，清除原有位置渲染的dom**/
+    var clearData=function () {
+        for(var i=0;i<cur.data.length;i++){
+            for (var j=0;j<cur.data[i].length;j++){
+                if(check(cur.origin,i,j)){
+                    gameData[cur.origin.x+i][cur.origin.y+j]=0
+                }
+            }
+        }
+    }
+    /**
+     * 方块下移
+     */
+    var down=function () {
+        if(cur.canDown(isValid)){
+            clearData();
+            cur.down();
+            setData();
+            refreshDiv(gameData,gameDivs);
+        }
+    }
+
+    //初始化
     var init=function (doms) {
         gameDiv=doms.gameDiv;
         nextDiv=doms.nextDiv;
-        cur=new Square();
-        next=new Square();
         initDiv(gameDiv,gameData,gameDivs);
-        initDiv(nextDiv,next.data,nextDivs);
+
+        cur=new Square();
         cur.origin.x=10;
         cur.origin.y=5;
-        for(var i=0;i<cur.data.length;i++){
-            for (var j=0;j<cur.data[i].length;j++){
-                gameData[cur.origin.x+i][cur.origin.y+j]=cur.data[i][j]
-            }
-        }
+
+        next=new Square();
+        initDiv(nextDiv,next.data,nextDivs);
+
+
+        setData()
+
         refreshDiv(gameData,gameDivs)
         refreshDiv(next.data,nextDivs)
     }
 
     this.init=init;
+    this.down=down;
 }
