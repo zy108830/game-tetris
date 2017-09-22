@@ -12,7 +12,7 @@ var Square = function () {
     this.dir = 0;
 }
 /**
- * 判断方块是否可以下移
+ * 判断方块是否可以旋转
  * @param isValid
  * @returns {*}
  */
@@ -32,7 +32,7 @@ Square.prototype.canRotate = function (isValid) {
     return isValid(this.origin, test);
 }
 /**
- * 方块下移
+ * 方块旋转
  */
 Square.prototype.rotate = function (num) {
     if (!num) {
@@ -66,7 +66,7 @@ Square.prototype.down = function () {
     this.origin.x = this.origin.x + 1;
 }
 /**
- * 判断方块是否可以下移
+ * 判断方块是否可以左移
  * @param isValid
  * @returns {*}
  */
@@ -77,13 +77,13 @@ Square.prototype.canLeft = function (isValid) {
     return isValid(test, this.data)
 }
 /**
- * 方块下移
+ * 方块座椅
  */
 Square.prototype.left = function () {
     this.origin.y = this.origin.y - 1;
 }
 /**
- * 判断方块是否可以下移
+ * 判断方块是否可以右移
  * @param isValid
  * @returns {*}
  */
@@ -94,7 +94,7 @@ Square.prototype.canRight = function (isValid) {
     return isValid(test, this.data)
 }
 /**
- * 方块下移
+ * 方块右移
  */
 Square.prototype.right = function () {
     this.origin.y = this.origin.y + 1;
