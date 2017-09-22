@@ -123,6 +123,43 @@ var Game=function () {
             cur.down();
             setData();
             refreshDiv(gameData,gameDivs);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+    var left=function () {
+        if(cur.canLeft(isValid)){
+            clearData();
+            cur.left();
+            setData();
+            refreshDiv(gameData,gameDivs);
+        }
+    }
+
+    var right=function () {
+        if(cur.canRight(isValid)){
+            clearData();
+            cur.right();
+            setData();
+            refreshDiv(gameData,gameDivs);
+        }
+    }
+
+    var rotate=function () {
+        if(cur.canRotate(isValid)){
+            clearData();
+            cur.rotate();
+            setData();
+            refreshDiv(gameData,gameDivs);
+        }
+    }
+    
+    var fall=function () {
+        while (this.down()){
+            this.down();
         }
     }
 
@@ -149,4 +186,8 @@ var Game=function () {
 
     this.init=init;
     this.down=down;
+    this.left=left;
+    this.right=right;
+    this.rotate=rotate;
+    this.fall=fall;
 }
