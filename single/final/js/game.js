@@ -170,12 +170,10 @@ var Game=function () {
         initDiv(gameDiv,gameData,gameDivs);
         //初始化下一次的方块所在的容器
         nextDiv=doms.nextDiv;
-        next=new Square();
+        next=SquareFactory.prototype.make(2,2);
         initDiv(nextDiv,next.data,nextDivs);
         //获取当前的方块，并设置方块出现的初始位置
-        cur=new Square();
-        cur.origin.x=10;
-        cur.origin.y=5;
+        cur=SquareFactory.prototype.make(3,3);
         //将当前的方块显示到游戏容器中
         setData()
         //在游戏容器中显示方块
