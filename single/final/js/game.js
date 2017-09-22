@@ -2,6 +2,12 @@ var Game=function () {
     //dom 元素
     var gameDiv;
     var nextDiv;
+    var timeDiv;
+    var scoreDiv;
+    var resultDiv;
+    //分数
+    var score=0;
+
     //游戏矩阵
     var gameData=[
         [0,0,0,0,0,0,0,0,0,0],
@@ -188,6 +194,7 @@ var Game=function () {
 
     //消行
     var checkClear=function () {
+        var line=0;
         for (var i=gameData.length-1;i>=0;i--){
             var clear=true;
             for (var j=0;j<gameData[0].length;j++){
@@ -197,6 +204,7 @@ var Game=function () {
                 }
             }
             if(clear){
+                line+=1;
                 for (var m=i;m>0;m--){
                     for (var n=0;n<gameData[0].length;n++){
                         gameData[m][n]=gameData[m-1][n];
@@ -208,6 +216,7 @@ var Game=function () {
                 i++;
             }
         }
+        return line;
     }
     
     var checkGameOver=function () {
@@ -219,22 +228,51 @@ var Game=function () {
         }
         return gameOver;
     }
+    
+    var gameover=function (win) {
+        if(win){
+            resultDiv.innerHTML='你赢了';
+        }else {
+            resultDiv.innerHTML='你输了';
+        }
+    }
+    
+    var setTime=function (time) {
+        timeDiv.innerHTML=time;
+    }
+    
+    var addScore=function (line) {
+        var s=0;
+        switch (line){
+            case 1:
+                s=10;
+                break;
+            case 2:
+                s=30;
+                break;
+            case 3:
+                s=60;
+                break;
+            case 4:
+                s=100;
+                break;
+        }
+        score+=s;
+        scoreDiv.innerHTML=score;
+    }
 
     //初始化
-    var init=function (doms) {
+    var init=function (doms,type,dir) {
         //初始化游戏容器
         gameDiv=doms.gameDiv;
         initDiv(gameDiv,gameData,gameDivs);
         //初始化下一次的方块所在的容器
         nextDiv=doms.nextDiv;
-        next=SquareFactory.prototype.make(2,2);
+        timeDiv=doms.timeDiv;
+        scoreDiv=doms.scoreDiv;
+        resultDiv=doms.resultDiv;
+        next=SquareFactory.prototype.make(type,dir);
         initDiv(nextDiv,next.data,nextDivs);
-        //获取当前的方块，并设置方块出现的初始位置
-        cur=SquareFactory.prototype.make(3,3);
-        //将当前的方块显示到游戏容器中
-        setData()
-        //在游戏容器中显示方块
-        refreshDiv(gameData,gameDivs)
         //在下一次的容器中显示方块
         refreshDiv(next.data,nextDivs)
     }
@@ -249,4 +287,7 @@ var Game=function () {
     this.performNext=performNext;
     this.checkClear=checkClear;
     this.checkGameOver=checkGameOver;
+    this.setTime=setTime;
+    this.addScore=addScore;
+    this.gameover=gameover;
 }
