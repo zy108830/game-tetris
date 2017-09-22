@@ -76,7 +76,7 @@ var Game = function () {
                 }
             }
         }
-        console.log(gameData);
+        // console.log(gameData);
     }
     /*检测方块位置是否合法*/
     var check = function (pos, x, y) {

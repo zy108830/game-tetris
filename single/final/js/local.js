@@ -1,4 +1,4 @@
-var Local=function () {
+var Local=function (socket) {
     //游戏对象
     var game;
     //游戏间隔

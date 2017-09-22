@@ -9,6 +9,7 @@
 </head>
 <body>
 <div>请用方向键和空格键进行操作：上->旋转，左->左移，右->右移，下->下移，空格->坠落</div>
+<div id="wating"></div>
 <div class="square" id="local">
     <div class="title">我的游戏区域</div>
     <div class="game" id="local_game"></div>
@@ -42,6 +43,7 @@
         <button id="addTailLines">addTailLines</button><br/>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script type="text/javascript" src="js/square.js"></script>
 <script type="text/javascript" src="js/squareFactory.js"></script>
 <script type="text/javascript" src="js/game.js"></script>

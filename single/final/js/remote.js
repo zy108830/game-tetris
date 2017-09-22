@@ -1,4 +1,4 @@
-var Remote=function () {
+var Remote=function (socket) {
     var game;
     var bindEvents=function () {
         document.getElementById('rotate').onclick=function () {
