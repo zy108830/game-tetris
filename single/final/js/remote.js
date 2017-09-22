@@ -7,6 +7,37 @@ var Remote=function (socket) {
         socket.on('next',function (data) {
             game.performNext(data.type,data.dir);
         });
+        socket.on('rotate',function () {
+            game.rotate();
+        });
+        socket.on('left',function () {
+            game.left();
+        });
+        socket.on('right',function () {
+            game.right();
+        });
+        socket.on('down',function () {
+            game.down();
+        });
+        socket.on('fall',function () {
+            game.fall();
+        });
+        socket.on('fixed',function () {
+            game.fixed();
+        });
+        socket.on('line',function (data) {
+            game.checkClear();
+            game.addScore(data);
+        });
+        socket.on('time',function (data) {
+            game.setTime(data);
+        });
+        socket.on('lose',function (data) {
+            game.gameover(false);
+        });
+        socket.on('addTailLines',function (data) {
+            game.addTailLines(data);
+        });
     }
     var start=function (type,dir) {
         var doms={
