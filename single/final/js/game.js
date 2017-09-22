@@ -32,7 +32,7 @@ var Game=function () {
     //divs
     var nextDivs=[];
     var gameDivs=[];
-    //初始化div
+    //容器、容器矩阵数据，容器矩阵dom
     var initDiv=function (container,data,divs) {
         for (var i=0;i<data.length;i++){
             var div=[];
@@ -66,10 +66,12 @@ var Game=function () {
         for(var i=0;i<cur.data.length;i++){
             for (var j=0;j<cur.data[i].length;j++){
                 if(check(cur.origin,i,j)){
+                    //改成x+j，y+i会更合理一点，暂不改
                     gameData[cur.origin.x+i][cur.origin.y+j]=cur.data[i][j]
                 }
             }
         }
+        console.log(gameData);
     }
 
     /*检测方块位置是否合法*/
@@ -102,7 +104,7 @@ var Game=function () {
         return true;
     }
 
-    /**下移前，清除原有位置渲染的dom**/
+    /**下移前，清除原有位置渲染的dom样式**/
     var clearData=function () {
         for(var i=0;i<cur.data.length;i++){
             for (var j=0;j<cur.data[i].length;j++){
@@ -126,21 +128,22 @@ var Game=function () {
 
     //初始化
     var init=function (doms) {
+        //初始化游戏容器
         gameDiv=doms.gameDiv;
-        nextDiv=doms.nextDiv;
         initDiv(gameDiv,gameData,gameDivs);
-
+        //初始化下一次的方块所在的容器
+        nextDiv=doms.nextDiv;
+        next=new Square();
+        initDiv(nextDiv,next.data,nextDivs);
+        //获取当前的方块，并设置方块出现的初始位置
         cur=new Square();
         cur.origin.x=10;
         cur.origin.y=5;
-
-        next=new Square();
-        initDiv(nextDiv,next.data,nextDivs);
-
-
+        //将当前的方块显示到游戏容器中
         setData()
-
+        //在游戏容器中显示方块
         refreshDiv(gameData,gameDivs)
+        //在下一次的容器中显示方块
         refreshDiv(next.data,nextDivs)
     }
 
